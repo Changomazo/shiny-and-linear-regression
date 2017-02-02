@@ -1,0 +1,49 @@
+Course Project: Shiny Application and Reproducible Pitch
+========================================================
+author: Albert Blanchart  
+date: 2017/02/02
+autosize: true
+
+The assignment
+========================================================
+
+* For this week we will develop a shiny app using the R basic data set **trees**. More information about this database can be found [here](http://stat.ethz.ch/R-manual/R-devel/library/datasets/html/trees.html).   
+* As we will see in next slides, this dataset is pretty simple and we will use it to show linear regression model and how these models change depending on the values included in the regression model.  
+* therefore, this presentattion contains basic exploratory analysis of the variables and data, and links for the shiny app and its code in GitHub.  
+
+Hope you enjoy it!
+
+
+A first look: Exploratory analysis
+========================================================
+
+* First look att the dataset
+```{r summary, echo=FALSE}
+str(trees)
+```
+* It is not the biggest or more complicated dataset but it will serve to our purposes in these exercise.
+
+How does the data correlate
+========================================================
+
+```{r, echo=FALSE, warnings = FALSE}
+library(ggplot2)
+library(gridExtra)
+g1 <- qplot(data = trees, x = Girth, y = Volume, color = Height)
+g2 <- qplot(data = trees, x = Girth, y = Height, color = Volume)
+grid.arrange(g1, g2, ncol = 2, nrow = 1)
+```
+Well we can see a clear correlation between the variables *Girth* and *Volume*, lets see what happens if we fit a linear model (something basic) and check the results
+```{r, echo=FALSE}
+fit <- lm(Volume ~ Girth, data = trees)
+```
+R Squared:
+```{r, echo=FALSE}
+summary(fit)$r.squared
+```
+
+Our last step
+========================================================
+* Now that we have seen this correlation between *Girth* and *Volume*, lets going to use shiny to build a little app that shows how this R square value changes upon withdraw or addition of values. The app is found [here](https://changomazo.shinyapps.io/DoYourOwnLm/), and you can toggle data points just dragging the mouse. R square, slope and confidence intervals will change as you remove or add values.  
+* The ui.R and server.R files can be found in my repository in [gitHubs](https://github.com/Changomazo/shiny-and-linear-regression), as well as the code for this presentation.  
+I hope you found it amusing or even a bit useful :)
